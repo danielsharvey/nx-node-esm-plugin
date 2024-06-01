@@ -2,10 +2,12 @@
   "name": "@harves/nx-node-esm-plugin",
   "version": "0.0.1",
   "dependencies": {
+    "@nx/devkit": "19.1.1",
     "tslib": "^2.3.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
-  "private": true
+  "private": true,
+  "executors": "./executors.json"
 }
