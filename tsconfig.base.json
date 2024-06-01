@@ -16,6 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@harves/nx-node-esm-plugin": ["libs/nx-node-esm-plugin/src/index.ts"],
+      "@harves/testapp1-commonjs": ["libs/testapp1-commonjs/src/index.ts"],
+      "@harves/testapp2-esm": ["libs/testapp2-esm/src/index.ts"],
+      "@harves/testlib1-commonjs": ["libs/testlib1-commonjs/src/index.ts"],
+      "@harves/testlib2-esm": ["libs/testlib2-esm/src/index.ts"],
       "@nx-node-esm-plugin/node-runner": ["libs/node-runner/src/index.ts"]
     }
   },

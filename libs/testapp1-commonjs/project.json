@@ -1,0 +1,19 @@
+{
+  "name": "testapp1-commonjs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/testapp1-commonjs/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/testapp1-commonjs",
+        "main": "libs/testapp1-commonjs/src/index.ts",
+        "tsConfig": "libs/testapp1-commonjs/tsconfig.lib.json",
+        "assets": ["libs/testapp1-commonjs/*.md"]
+      }
+    }
+  }
+}

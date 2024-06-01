@@ -1,0 +1,19 @@
+{
+  "name": "testapp2-esm",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/testapp2-esm/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/testapp2-esm",
+        "main": "libs/testapp2-esm/src/index.ts",
+        "tsConfig": "libs/testapp2-esm/tsconfig.lib.json",
+        "assets": ["libs/testapp2-esm/*.md"]
+      }
+    }
+  }
+}
