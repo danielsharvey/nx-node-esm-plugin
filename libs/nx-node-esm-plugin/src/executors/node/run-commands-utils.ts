@@ -57,7 +57,7 @@ function addColorAndPrefix(
  *
  * @see https://github.com/nrwl/nx/blob/316dcb948cf172e4faef8866bc66a9002ed4c4e3/packages/nx/src/executors/run-commands/run-commands.impl.ts#L442-L449
  */
-function calculateCwd(
+export function calculateCwd(
   cwd: string | undefined,
   context: ExecutorContext
 ): string {
@@ -109,71 +109,67 @@ function processEnv(color: boolean, cwd: string, env: Record<string, string>) {
  *
  * @see https://github.com/nrwl/nx/blob/316dcb948cf172e4faef8866bc66a9002ed4c4e3/packages/nx/src/executors/run-commands/run-commands.impl.ts#L293C1-L353C2
  */
-async function createProcess(
-  pseudoTerminal: PseudoTerminal | null,
+export async function createProcess(
+  // pseudoTerminal: PseudoTerminal | null,
   commandConfig: {
     command: string;
+    args: string[];
     color?: string;
     bgColor?: string;
     prefix?: string;
   },
-  readyWhen: string,
+  // readyWhen: string,
   color: boolean,
   cwd: string,
   env: Record<string, string>,
-  isParallel: boolean,
-  usePty: boolean = true,
-  streamOutput: boolean = true,
-  tty: boolean
+  // isParallel: boolean,
+  // usePty: boolean = true,
+  streamOutput = true,
+  // tty: boolean
 ): Promise<{ success: boolean; terminalOutput: string }> {
   env = processEnv(color, cwd, env);
   // The rust runCommand is always a tty, so it will not look nice in parallel and if we need prefixes
   // currently does not work properly in windows
-  if (
-    pseudoTerminal &&
-    process.env.NX_NATIVE_COMMAND_RUNNER !== 'false' &&
-    !commandConfig.prefix &&
-    !isParallel &&
-    usePty
-  ) {
-    let terminalOutput = chalk.dim('> ') + commandConfig.command + '\r\n\r\n';
-    if (streamOutput) {
-      process.stdout.write(terminalOutput);
-    }
+  // if (
+  //   pseudoTerminal &&
+  //   process.env.NX_NATIVE_COMMAND_RUNNER !== 'false' &&
+  //   !commandConfig.prefix &&
+  //   !isParallel &&
+  //   usePty
+  // ) {
+  //   let terminalOutput = chalk.dim('> ') + commandConfig.command + '\r\n\r\n';
+  //   if (streamOutput) {
+  //     process.stdout.write(terminalOutput);
+  //   }
 
+  //   const cp = pseudoTerminal.runCommand(commandConfig.command, {
+  //     cwd,
+  //     jsEnv: env,
+  //     quiet: !streamOutput,
+  //     tty,
+  //   });
 
-    const cp = pseudoTerminal.runCommand(commandConfig.command, {
-      cwd,
-      jsEnv: env,
-      quiet: !streamOutput,
-      tty,
-    });
+  //   childProcesses.add(cp);
 
+  //   return new Promise((res) => {
+  //     cp.onOutput((output) => {
+  //       terminalOutput += output;
+  //       if (readyWhen && output.indexOf(readyWhen) > -1) {
+  //         res({ success: true, terminalOutput });
+  //       }
+  //     });
 
-    childProcesses.add(cp);
+  //     cp.onExit((code) => {
+  //       if (code >= 128) {
+  //         process.exit(code);
+  //       } else {
+  //         res({ success: code === 0, terminalOutput });
+  //       }
+  //     });
+  //   });
+  // }
 
-
-    return new Promise((res) => {
-      cp.onOutput((output) => {
-        terminalOutput += output;
-        if (readyWhen && output.indexOf(readyWhen) > -1) {
-          res({ success: true, terminalOutput });
-        }
-      });
-
-
-      cp.onExit((code) => {
-        if (code >= 128) {
-          process.exit(code);
-        } else {
-          res({ success: code === 0, terminalOutput });
-        }
-      });
-    });
-  }
-
-
-  return nodeProcess(commandConfig, cwd, env, readyWhen, streamOutput);
+  return nodeProcess(commandConfig, cwd, env, '', streamOutput);
 }
 
 /**
@@ -190,6 +186,7 @@ async function createProcess(
 function nodeProcess(
   commandConfig: {
     command: string;
+    args: string[];
     color?: string;
     bgColor?: string;
     prefix?: string;
@@ -204,10 +201,11 @@ function nodeProcess(
     process.stdout.write(terminalOutput);
   }
   return new Promise((res) => {
-    const childProcess = exec(commandConfig.command, {
-      maxBuffer: LARGE_BUFFER,
+    const childProcess = fork(commandConfig.command, commandConfig.args, {
+      // maxBuffer: LARGE_BUFFER,
       env,
       cwd,
+      stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
     });
 
 
@@ -215,7 +213,7 @@ function nodeProcess(
 
 
     childProcess.stdout.on('data', (data) => {
-      const output = addColorAndPrefix(data, commandConfig);
+      const output = addColorAndPrefix(data.toString(), commandConfig);
       terminalOutput += output;
       if (streamOutput) {
         process.stdout.write(output);
@@ -225,7 +223,7 @@ function nodeProcess(
       }
     });
     childProcess.stderr.on('data', (err) => {
-      const output = addColorAndPrefix(err, commandConfig);
+      const output = addColorAndPrefix(err.toString(), commandConfig);
       terminalOutput += output;
       if (streamOutput) {
         process.stderr.write(output);

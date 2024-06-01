@@ -1,13 +1,20 @@
 {
   "name": "@harves/nx-node-esm-plugin",
   "version": "0.0.1",
+  "license": "MIT",
   "dependencies": {
     "@nx/devkit": "19.1.1",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "nx": "19.1.1",
+    "chalk": "4.1.2",
+    "npm-run-path": "4.0.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "private": true,
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "engines": {
+    "node": ">=18.19.0"
+  }
 }

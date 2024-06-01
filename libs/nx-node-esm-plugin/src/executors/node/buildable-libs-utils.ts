@@ -30,6 +30,7 @@ function isBuildable(target: string, node: ProjectGraphProjectNode): boolean {
  */
 export type DependentBuildableProjectNode = {
   name: string;
+  target: string;
   outputs: string[];
   node: ProjectGraphProjectNode | ProjectGraphExternalNode;
 };
@@ -99,6 +100,7 @@ export function calculateProjectDependencies(
             name: fileExists(libPackageJsonPath)
               ? readJsonFile(libPackageJsonPath).name // i.e. @workspace/mylib
               : dep,
+            target: targetName,
             outputs: getOutputsForTargetAndConfiguration(
               {
                 project: projectName,
@@ -116,6 +118,7 @@ export function calculateProjectDependencies(
       } else if (depNode.type === 'npm') {
         project = {
           name: depNode.data.packageName,
+          target: targetName,
           outputs: [],
           node: depNode,
         };
@@ -228,7 +231,7 @@ export function calculateDependenciesFromTaskGraph(
   );
 
   const dependencies: DependentBuildableProjectNode[] = [];
-  for (const [taskName, { isTopLevel }] of dependentTasks) {
+  for (const [taskName, { target, isTopLevel }] of dependentTasks) {
     let project: DependentBuildableProjectNode = null;
     const depTask = taskGraph.tasks[taskName];
     const depProjectNode = projectGraph.nodes?.[depTask.target.project];
@@ -236,7 +239,7 @@ export function calculateDependenciesFromTaskGraph(
       continue;
     }
 
-    let outputs = getOutputsForTargetAndConfiguration(
+    const outputs = getOutputsForTargetAndConfiguration(
       depTask.target,
       depTask.overrides,
       depProjectNode
@@ -257,6 +260,7 @@ export function calculateDependenciesFromTaskGraph(
       name: fileExists(libPackageJsonPath)
         ? readJsonFile(libPackageJsonPath).name // i.e. @workspace/mylib
         : depTask.target.project,
+      target,
       outputs,
       node: depProjectNode,
     };
@@ -301,7 +305,7 @@ function collectNpmDependencies(
   projectName: string,
   projectGraph: ProjectGraph,
   dependentTasks:
-    | Map<string, { project: string; isTopLevel: boolean }>
+    | Map<string, { project: string; target:string; isTopLevel: boolean }>
     | undefined,
   collectedPackages = new Set<string>(),
   isTopLevel = true
@@ -321,8 +325,9 @@ function collectNpmDependencies(
         return null;
       }
 
-      const project = {
+      const project: DependentBuildableProjectNode = {
         name: projectNode.data.packageName,
+        target: dep.target,
         outputs: [],
         node: projectNode,
       };
@@ -369,9 +374,26 @@ function collectDependentTasks(
   projectGraph: ProjectGraph,
   shallow?: boolean,
   areTopLevelDeps = true,
-  dependentTasks = new Map<string, { project: string; isTopLevel: boolean }>()
-): Map<string, { project: string; isTopLevel: boolean }> {
-  for (const depTask of taskGraph.dependencies[task] ?? []) {
+  dependentTasks = new Map<string, { project: string; target: string; isTopLevel: boolean }>()
+): Map<string, { project: string; target: string; isTopLevel: boolean }> {
+
+  const _task = parseTargetString(task, projectGraph);
+
+  let depTasks = taskGraph.dependencies[task];
+  if(depTasks === undefined) {
+    /* if direct lookup `taskGraph.dependencies[task]` fails
+    * we match on project:target (excluding environment) */
+    const _depTasks = Object.entries(taskGraph.dependencies).find(
+      ([t, _deps]) => {
+        const _t = parseTargetString(t, projectGraph);
+        // console.log('    *', _t, (_t.project === _task.project && _t.target === _task.target));
+        return _t.project === _task.project && _t.target === _task.target;
+      }
+    );
+    depTasks = _depTasks?.[1];
+  }
+
+  for (const depTask of depTasks ?? []) {
     if (dependentTasks.has(depTask)) {
       if (!dependentTasks.get(depTask).isTopLevel && areTopLevelDeps) {
         dependentTasks.get(depTask).isTopLevel = true;
@@ -379,13 +401,14 @@ function collectDependentTasks(
       continue;
     }
 
-    const { project: depTaskProject } = parseTargetString(
+    const { project: depTaskProject, target: depTaskTarget } = parseTargetString(
       depTask,
       projectGraph
     );
     if (depTaskProject !== project) {
       dependentTasks.set(depTask, {
         project: depTaskProject,
+        target: depTaskTarget,
         isTopLevel: areTopLevelDeps,
       });
     }

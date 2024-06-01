@@ -1,4 +1,29 @@
 {
   "name": "@nx-node-esm-plugin/node-runner",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "resolve-pkg-maps": "^1.0.0"
+  },
+  "type": "module",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "typings": "./src/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "module": "./src/index.js",
+      "import": {
+        "types": "./src/index.d.ts",
+        "default": "./src/index.js"
+      },
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "README.md",
+    "/src"
+  ],
+  "sideEffects": false
 }

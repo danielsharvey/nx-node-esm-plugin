@@ -32,7 +32,7 @@ export function getRelativeDirectoryToProjectRoot(
  *
  * @see https://github.com/nrwl/nx/blob/b9e190d22b03ca792fbd1a9665d3344167ccaf03/packages/js/src/executors/node/node.impl.ts#L360C1-L425C2
  */
-function getFileToRun(
+export function getFileToRun(
   context: ExecutorContext,
   project: ProjectGraphProjectNode,
   buildOptions: Record<string, any>,
@@ -96,11 +96,12 @@ function getFileToRun(
  *
  * @see https://github.com/nrwl/nx/blob/b9e190d22b03ca792fbd1a9665d3344167ccaf03/packages/js/src/executors/node/node.impl.ts#L412-L425
  */
-function fileToRunCorrectPath(fileToRun: string): string {
+export function fileToRunCorrectPath(fileToRun: string): string {
   if (fileExists(fileToRun)) return fileToRun;
 
 
-  const extensionsToTry = ['.cjs', '.mjs', '.cjs.js', '.esm.js'];
+  // const extensionsToTry = ['.cjs', '.mjs', '.cjs.js', '.esm.js'];
+  const extensionsToTry = ['.mjs', '.esm.js', '.cjs', '.cjs.js']; // Prefer ESM
 
 
   for (const ext of extensionsToTry) {

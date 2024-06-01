@@ -17,7 +17,7 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/jest": "^29.4.0",
-    "@types/node": "18.16.9",
+    "@types/node": "^18.19.33",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "eslint": "~8.57.0",
@@ -33,6 +33,10 @@
   },
   "dependencies": {
     "@nx/devkit": "19.1.1",
+    "resolve-pkg-maps": "^1.0.0",
     "tslib": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=18.19.0"
   }
 }

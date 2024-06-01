@@ -1,9 +1,88 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "Node executor",
+  "title": "NodeExecutor executor",
   "description": "",
   "type": "object",
-  "properties": {},
-  "required": []
+  "outputCapture": "pipe",
+  "properties": {
+    "buildTarget": {
+      "type": "string",
+      "description": "The target to run to build you the app."
+    },
+    "buildTargetOptions": {
+      "type": "object",
+      "description": "Additional options to pass into the build target.",
+      "default": {}
+    },
+    "fileToRunMode": {
+      "type": "string",
+      "description": "Mode specifying how the Node file to run is determined; either from the package.json of the build target, inferred from the build target or specified explicitly.",
+      "enum": ["packageJson", "fromBuildTarget", "specified"]
+    },
+    "fileToRun": {
+      "type": "string",
+      "description": "Optional specification of the Node file to run (if present this setting overrides `fileToRunMode`)."
+    },
+    "args": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Arguments passed to the Node script."
+    },
+    "moduleResolutionOverrides": {
+      "type": "object",
+      "description": "Optional ESM module resolution overrides; key is the specifier, value if the full absolute path of the file to load.",
+      "patternProperties": {
+        ".+": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "color": {
+      "type": "boolean",
+      "description": "Use colors when showing output of command.",
+      "default": false
+    },
+    "cwd": {
+      "type": "string",
+      "description": "Current working directory of the commands. If it's not specified the commands will run in the workspace root, if a relative path is specified the commands will run in that path relative to the workspace root and if it's an absolute path the commands will run in that path."
+    },
+    "env": {
+      "type": "object",
+      "description": "Environment variables that will be made available to the commands. This property has priority over the `.env` files.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "envFile": {
+      "type": "string",
+      "description": "You may specify a custom .env file path."
+    },
+    "tty": {
+      "type": "boolean",
+      "description": "Whether commands should be run with a tty terminal",
+      "hidden": true
+    },
+    "_": {
+      "hidden": true,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "__unparsed__": {
+      "hidden": true,
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "$default": {
+        "$source": "unparsed"
+      },
+      "x-priority": "internal"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["buildTarget"]
 }
