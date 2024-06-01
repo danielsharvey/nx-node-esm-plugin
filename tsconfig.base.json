@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@harves/nx-node-esm-plugin": ["libs/nx-node-esm-plugin/src/index.ts"]
+      "@harves/nx-node-esm-plugin": ["libs/nx-node-esm-plugin/src/index.ts"],
+      "@nx-node-esm-plugin/node-runner": ["libs/node-runner/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
