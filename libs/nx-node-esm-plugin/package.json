@@ -14,6 +14,7 @@
   "typings": "./src/index.d.ts",
   "private": true,
   "executors": "./executors.json",
+  "generators": "./generators.json",
   "engines": {
     "node": ">=18.19.0"
   }
