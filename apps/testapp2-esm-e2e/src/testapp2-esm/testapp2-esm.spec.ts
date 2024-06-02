@@ -3,12 +3,9 @@ import { promisify } from 'util';
 
 const execP = promisify(exec);
 
-describe('testapp2-esm tests', () => {
+const successRe = /TEST testapp2-esm: [^ ]+, testlib1-commonjs, testlib2-esm/;
 
-  it('should work correctly with @harves/nx-node-esm-plugin:node executor', () => {
-    const output = execSync(`./node_modules/.bin/nx run testapp2-esm:test-node-esm-plugin`).toString();
-    expect(output).toMatch(/TEST testapp2-esm: [^ ]+, testlib1-commonjs, testlib2-esm/);
-  });
+describe('testapp2-esm tests', () => {
 
   it('should fail with @nx/js:node executor', async () => {
     expect.assertions(1);
@@ -16,5 +13,20 @@ describe('testapp2-esm tests', () => {
     await expect(async () => {
       const { stdout, stderr } = await execP(`./node_modules/.bin/nx run testapp2-esm:test-js-node`);
     }).rejects.toThrow(/Cannot find package '[^']+' imported from .+testapp2-esm/);
+  });
+
+  it('should work correctly with @harves/nx-node-esm-plugin:node executor (fileToRunMode===buildTarget)', () => {
+    const output = execSync(`./node_modules/.bin/nx run testapp2-esm:test-node-esm-plugin-buildTarget-fileToRunMode`).toString();
+    expect(output).toMatch(successRe);
+  });
+
+  it('should work correctly with @harves/nx-node-esm-plugin:node executor (fileToRunMode===specified)', () => {
+    const output = execSync(`./node_modules/.bin/nx run testapp2-esm:test-node-esm-plugin-specified-fileToRunMode`).toString();
+    expect(output).toMatch(successRe);
+  });
+
+  it('should work correctly with @harves/nx-node-esm-plugin:node executor (fileToRunMode===packageJson)', () => {
+    const output = execSync(`./node_modules/.bin/nx run testapp2-esm:test-node-esm-plugin-packageJson-fileToRunMode`).toString();
+    expect(output).toMatch(successRe);
   });
 });

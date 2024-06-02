@@ -23,11 +23,27 @@
         "watch": false
       }
     },
-    "test-node-esm-plugin": {
+    "test-node-esm-plugin-buildTarget-fileToRunMode": {
       "executor": "@harves/nx-node-esm-plugin:node",
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "build"
+      }
+    },
+    "test-node-esm-plugin-specified-fileToRunMode": {
+      "executor": "@harves/nx-node-esm-plugin:node",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "build",
+        "fileToRun": "{workspaceRoot}/dist/apps/testapp2-esm/src/index.js"
+      }
+    },
+    "test-node-esm-plugin-packageJson-fileToRunMode": {
+      "executor": "@harves/nx-node-esm-plugin:node",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "build",
+        "fileToRunMode": "packageJson"
       }
     }
   }
