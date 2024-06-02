@@ -1,7 +1,7 @@
 {
-  "name": "testapp1-commonjs",
+  "name": "testapp2-esm",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/testapp1-commonjs/src",
+  "sourceRoot": "apps/testapp2-esm/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,10 +9,10 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/testapp1-commonjs",
-        "main": "libs/testapp1-commonjs/src/index.ts",
-        "tsConfig": "libs/testapp1-commonjs/tsconfig.lib.json",
-        "assets": ["libs/testapp1-commonjs/*.md"]
+        "outputPath": "dist/apps/testapp2-esm",
+        "main": "apps/testapp2-esm/src/index.ts",
+        "tsConfig": "apps/testapp2-esm/tsconfig.lib.json",
+        "assets": ["apps/testapp2-esm/*.md"]
       }
     },
     "test-js-node": {
