@@ -3,6 +3,8 @@ import { isBuiltin } from 'module';
 import { join } from 'path';
 import { resolveExports } from 'resolve-pkg-maps';
 
+const VERBOSE = process.env['NX_VERBOSE_LOGGING'] ?? false;
+
 /**
  * These mappings map from the Nx library names (as per `package.json`
  * and as mapped in `{workspaceRoot}/tsconfig.base.json`) to the
@@ -17,6 +19,10 @@ import { resolveExports } from 'resolve-pkg-maps';
  */
 const mappings = JSON.parse(process.env['NX_MAPPINGS'] ?? '{}');
 
+if(VERBOSE) {
+  console.log(`node-loader: library mappings:`, mappings);
+}
+
 /**
  * The mappings are provided in configuration and are evaluated preferentially to
  * `mappings`.
@@ -30,6 +36,10 @@ const mappings = JSON.parse(process.env['NX_MAPPINGS'] ?? '{}');
  * ```
  */
 const moduleResolutionOverrides = JSON.parse(process.env['NX_MODULE_RESOLUTION_OVERRIDES'] ?? '{}');
+
+if(VERBOSE) {
+  console.log(`node-loader: moduleResolutionOverrides:`, moduleResolutionOverrides);
+}
 
 const legacyMainResolveExtensions = [
   '',
@@ -66,6 +76,8 @@ class ModuleNotFoundError extends Error {
  * This method resolves Node ESM import specifiers for buildable
  * Nx libraries by mapping the library specifiers to the library's
  * built output paths.
+ *
+ * It also includes support for configurable overrides.
  *
  * All other specifiers are deferred to the parent resolver.
  *
@@ -108,12 +120,17 @@ class ModuleNotFoundError extends Error {
  */
 export async function resolve(specifier: string, context: any, nextResolve: any) {
 
-  console.log('QQ', specifier);
+  if(VERBOSE) {
+    console.log(`node-loader: resolving ${specifier}`);
+  }
 
   if(typeof moduleResolutionOverrides === 'object') {
     if(specifier in moduleResolutionOverrides) {
       const resolvedPath = moduleResolutionOverrides[specifier];
       if(fileExists(resolvedPath)) {
+        if(VERBOSE) {
+          console.log(`node-loader: found override ${specifier} --> ${resolvedPath}`);
+        }
         return nextResolve(resolvedPath, context);
       } else {
         throw new ModuleNotFoundError(specifier, resolvedPath, `Bad module resolution override`);
@@ -172,12 +189,10 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
 
             if(resolvedPaths?.[0]) {
               const resolvedPath = join(libPath, resolvedPaths[0]);
-              // console.log('RESOLVED PATH', resolvedPath);
-              // if(resolvedPath === '/Users/daniel/projects/mapworks-product/mapworks-monorepo-dh/dist/libs/cli-lib/index.mjs') {
-              //   return nextResolve(
-              //     '/Users/daniel/projects/mapworks-product/mapworks-monorepo-dh/dist/libs/cli-lib/index.cjs', context);
-              // }
               if(fileExists(resolvedPath)) {
+                if(VERBOSE) {
+                  console.log(`node-loader: found mapping ${specifier} --> ${resolvedPath} (export match)`);
+                }
                 return nextResolve(resolvedPath, context);
               } else {
                 throw new ModuleNotFoundError(specifier, resolvedPath);
@@ -195,6 +210,9 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
                 const resolvedPath = join(libPath, `${pkgJson.main}${ext}`);
                 if(fileExists(resolvedPath)) {
                   // DEP0151
+                  if(VERBOSE) {
+                    console.log(`node-loader: found mapping ${specifier} --> ${resolvedPath} (legacy DEP0151)`);
+                  }
                   return nextResolve(resolvedPath, context);
                 }
               }
@@ -203,6 +221,9 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
                 const resolvedPath = join(libPath, index);
                 if(fileExists(resolvedPath)) {
                   // DEP0151
+                  if(VERBOSE) {
+                    console.log(`node-loader: found mapping ${specifier} --> ${resolvedPath} (legacy DEP0151)`);
+                  }
                   return nextResolve(resolvedPath, context);
                 }
               }
@@ -211,12 +232,6 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
             throw new ModuleNotFoundError(specifier, pkgJsonPath, `Cannot resolve subpath '${subpath}'`);
           }
 
-            // NX_VERBOSE_LOGGING
-            // console.warn(
-            //   `WARNING: node-runner: Loader cannot process '${specifier}' using mapping '${libSpecifier}' --> '${libPath}' as subpath '${subpath}' cannot be resolved`
-            // );
-
-          // return nextResolve(join(_path, 'index.mjs'), context);
         } else {
           // libPath not string (INTERNAL ERROR?)
           throw new ModuleNotFoundError(specifier, JSON.stringify(libPath), `Bad mapping`);
