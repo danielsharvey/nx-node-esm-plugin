@@ -1,1 +1,1 @@
-export * from './lib/testlib2-esm';
+export * from './lib/testlib2-esm.js';
