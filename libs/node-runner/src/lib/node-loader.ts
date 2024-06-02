@@ -216,6 +216,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
                   return nextResolve(resolvedPath, context);
                 }
               }
+              throw new ModuleNotFoundError(specifier, pkgJsonPath, `Cannot resolve package main entry '${pkgJson.main}'`);
             } else {
               for(const index of legacyMainResolveFallbacks) {
                 const resolvedPath = join(libPath, index);
@@ -227,6 +228,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
                   return nextResolve(resolvedPath, context);
                 }
               }
+              throw new ModuleNotFoundError(specifier, pkgJsonPath, `Cannot resolve package fallback main entry`);
             }
           } else {
             throw new ModuleNotFoundError(specifier, pkgJsonPath, `Cannot resolve subpath '${subpath}'`);

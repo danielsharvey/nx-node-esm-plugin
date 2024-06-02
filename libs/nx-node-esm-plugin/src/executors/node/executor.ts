@@ -19,7 +19,7 @@ import * as chalk from 'chalk';
 import { calculateCwd, createProcess } from './run-commands-utils';
 import { interpolate } from 'nx/src/tasks-runner/utils';
 import { join, relative, resolve } from 'path';
-import { statSync } from 'fs';
+import { fileExists, resolveFileToRunFromPackageJson } from './package-json-utils';
 
 /**
  * Build the node-runner library; this is only necessary during
@@ -43,21 +43,17 @@ async function performNodeRunnerLibBuild(context: ExecutorContext) {
   }
 }
 
-function fileExists(pth: string) {
-  return statSync(pth, { throwIfNoEntry: false })?.isFile() ?? false;
-}
 
-export default async function _runExecutor(
+
+export default async function runExecutorFunc(
   options: NodeExecutorSchema,
   context: ExecutorContext
 ) {
-  console.log('OPT', options);
-
   const target = parseTargetString(context.targetName, context);
   const buildTarget = parseTargetString(options.buildTarget, context);
 
   /*
-   * Two parts :
+   * Two parts:
 
    * 1. Dependencies - collect libs from task graph.
    *
@@ -132,7 +128,7 @@ export default async function _runExecutor(
 
     fileToRun = options.fileToRun;
     fileToRun = fileToRun ? resolve(context.root, fileToRun) : fileToRun;
-    if (!fileExists || !fileExists(fileToRun)) {
+    if (!fileToRun || !fileExists(fileToRun)) {
       logger.error(
         `File to run mode is 'specified' and bad fileToRun '${fileToRun}' was provided`
       );
@@ -148,28 +144,63 @@ export default async function _runExecutor(
 
   } else {
 
+    // resolve `buildTarget` project details
+    const project = context.projectGraph.nodes[buildTarget.project];
+    const buildTargetExecutor =
+      project.data.targets[buildTarget.target]?.executor;
+    const buildOptions: Record<string, any> = {
+      ...readTargetOptions(buildTarget, context),
+      ...(options.buildTargetOptions ?? {}),
+      target: buildTarget.target,
+    };
+
     if (
       options.fileToRunMode === 'fromBuildTarget' ||
       options.fileToRunMode === undefined
     ) {
-      const project = context.projectGraph.nodes[buildTarget.project];
-      const buildTargetExecutor =
-        project.data.targets[buildTarget.target]?.executor;
-      const buildOptions: Record<string, any> = {
-        ...readTargetOptions(buildTarget, context),
-        ...(options.buildTargetOptions ?? {}),
-        target: buildTarget.target,
-      };
 
       fileToRun = fileToRunCorrectPath(
         getFileToRun(context, project, buildOptions, buildTargetExecutor)
       );
+
     } else if (options.fileToRunMode === 'packageJson') {
-      fileToRun = 'dummy';
+
+      // based on part of the getFileToRun() logic
+      const rawOutputPath =
+        buildOptions?.outputPath ??
+        project.data.targets[buildOptions.target]?.outputs?.[0];
+
+      if(!rawOutputPath) {
+        logger.error(
+          `File to run mode is 'specified' but no fileToRun was provided`
+        );
+        logger.error(
+          `Build option ${chalk.bold('outputPath')} not set for ${chalk.bold(
+            project.name
+          )}. Cannot determine output path.`
+        );
+        return { success: false };
+      }
+
+      const outputPath = interpolate(rawOutputPath, {
+        projectName: project.name,
+        projectRoot: project.data.root,
+        workspaceRoot: '',
+      });
+
+      fileToRun = resolveFileToRunFromPackageJson(
+        join(context.root, outputPath)
+      );
+      if(!fileToRun) {
+        // error logged in resolveFileToRunFromPackageJson()
+        return { success: false };
+      }
+
     } else {
       logger.error(
         `File to run mode is 'specified' but no fileToRun was provided`
       );
+      return { success: false };
     }
   }
 
