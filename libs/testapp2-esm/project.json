@@ -14,6 +14,21 @@
         "tsConfig": "libs/testapp2-esm/tsconfig.lib.json",
         "assets": ["libs/testapp2-esm/*.md"]
       }
+    },
+    "test-js-node": {
+      "executor": "@nx/js:node",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "build",
+        "watch": false
+      }
+    },
+    "test-node-esm-plugin": {
+      "executor": "@harves/nx-node-esm-plugin:node",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "build"
+      }
     }
   }
 }

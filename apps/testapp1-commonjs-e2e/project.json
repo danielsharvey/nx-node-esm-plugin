@@ -1,0 +1,17 @@
+{
+  "name": "testapp1-commonjs-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["testapp1-commonjs"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/testapp1-commonjs-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["testapp1-commonjs:build"]
+    }
+  }
+}
