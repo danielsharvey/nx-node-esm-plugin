@@ -32,6 +32,21 @@ describe('nx-node-esm-plugin', () => {
       stdio: 'inherit',
     });
   });
+
+  it('sample-app generator should work', () => {
+    execSync('npx nx g @harves/nx-node-esm-plugin:sample-app test', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
+  });
+
+  it('sample-app generator should work', () => {
+    const stdout = execSync('npx nx run test-app:run-node-esm-plugin', {
+      cwd: projectDirectory,
+      stdio: ['inherit', 'pipe', 'inherit'],
+    });
+    expect(stdout.toString()).toMatch(/RUNNING: APP:test-app --> CALLING LIB:test-lib/);
+  });
 });
 
 /**
