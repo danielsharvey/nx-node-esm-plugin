@@ -14,7 +14,6 @@
         "main": "libs/nx-node-esm-plugin/src/index.ts",
         "tsConfig": "libs/nx-node-esm-plugin/tsconfig.lib.json",
         "assets": [
-          "libs/nx-node-esm-plugin/*.md",
           {
             "input": "./libs/nx-node-esm-plugin/src",
             "glob": "**/!(*.ts)",
