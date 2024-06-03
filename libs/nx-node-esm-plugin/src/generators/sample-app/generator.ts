@@ -4,6 +4,7 @@ import {
   formatFiles,
   generateFiles,
   getProjects,
+  logger,
   names,
   readJson,
   readProjectConfiguration,
@@ -46,6 +47,8 @@ export async function sampleAppGenerator(
    * create app
    */
 
+  logger.info(`NX Generating sample app ${appDirectory}`);
+
   await libraryGenerator(
     tree, // virtual file system tree
     // options for the generator
@@ -84,7 +87,6 @@ export async function sampleAppGenerator(
 
   // app package.json
   updateJson(tree, join(appDirectory, 'package.json'), (pkgJson) => {
-    console.log('package', pkgJson);
     pkgJson.type = 'module';
     return pkgJson;
   });
@@ -98,6 +100,8 @@ export async function sampleAppGenerator(
   /*
    * create library
    */
+
+  logger.info(`NX Generating sample library ${libDirectory}`);
 
   await libraryGenerator(
     tree, // virtual file system tree
@@ -125,6 +129,15 @@ export async function sampleAppGenerator(
     tsconfig.compilerOptions.module = 'esnext';
     return tsconfig;
   });
+
+  // console.log('TREE', tree);
+
+  // const projects = getProjects(tree);
+  // console.log('OBJECT', Object.keys(projects));
+
+  // const appConf = readProjectConfiguration(tree, appName);
+  // appConf.projectType = 'application';
+  // updateProjectConfiguration(tree, appName, appConf);
 
   /*
    * app + library source code
@@ -161,15 +174,15 @@ export async function sampleAppGenerator(
     join(appDirectory, 'package.json')
   );
 
-  const srcPath = `${appDirectory}/src/index.ts`;
-  const srcBuf = tree.read(srcPath);
-  const src = srcBuf.toString('utf-8');
-  console.log('SRC', src);
+  // const srcPath = `${appDirectory}/src/index.ts`;
+  // const srcBuf = tree.read(srcPath);
+  // const src = srcBuf.toString('utf-8');
+  // console.log('SRC', src);
 
-  console.log('PKG', readJson(tree, join(appDirectory, 'package.json')));
-  console.log('PROJECT', JSON.stringify(readJson(tree, join(appDirectory, 'project.json')), null, 2));
+  // console.log('PKG', readJson(tree, join(appDirectory, 'package.json')));
+  // console.log('PROJECT', JSON.stringify(readJson(tree, join(appDirectory, 'project.json')), null, 2));
 
-  console.log('TREE', tree);
+  // console.log('TREE', tree);
 
   await formatFiles(tree);
 }

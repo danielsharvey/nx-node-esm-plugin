@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { sampleAppGenerator } from './generator';
 import { SampleAppGeneratorSchema } from './schema';
 
-describe('sample-app generator', () => {
+describe('Sample app generator', () => {
   let tree: Tree;
   const options: SampleAppGeneratorSchema = { name: 'test' };
 
@@ -14,7 +14,9 @@ describe('sample-app generator', () => {
 
   it('should run successfully', async () => {
     await sampleAppGenerator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config).toBeDefined();
+    const appConfig = readProjectConfiguration(tree, 'test-app');
+    const libConfig = readProjectConfiguration(tree, 'test-lib');
+    expect(appConfig).toBeDefined();
+    expect(libConfig).toBeDefined();
   });
 });
