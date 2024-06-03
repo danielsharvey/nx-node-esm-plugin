@@ -8,6 +8,7 @@
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["node-runner:build", "^build"],
       "options": {
         "outputPath": "dist/libs/nx-node-esm-plugin",
         "main": "libs/nx-node-esm-plugin/src/index.ts",
@@ -33,6 +34,11 @@
             "input": "./libs/nx-node-esm-plugin",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./dist/libs/node-runner/src/lib",
+            "glob": "*.js",
+            "output": "./src/executors/node/node-runner"
           }
         ]
       }

@@ -1,0 +1,5 @@
+# see libs/cli-lib/project.json
+# and https://github.com/nrwl/nx/issues/19796
+!dist
+
+# dist/libs/node-runner
