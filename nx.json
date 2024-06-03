@@ -41,6 +41,12 @@
           "codeCoverage": true
         }
       }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "options": {
+        "packageRoot": "{workspaceRoot}/dist/{projectRoot}"
+      }
     }
   },
   "release": {
