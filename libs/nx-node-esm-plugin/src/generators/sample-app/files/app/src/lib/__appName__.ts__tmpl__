@@ -1,0 +1,5 @@
+import { <%= libNameFunc %> } from '<%= libImport %>';
+
+export function <%= appNameFunc %>(): string {
+  return `APP:<%= appName %> --> CALLING LIB:${<%= libNameFunc %>()}`;
+}

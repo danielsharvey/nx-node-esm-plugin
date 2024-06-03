@@ -3,7 +3,7 @@
     "sample-app": {
       "factory": "./src/generators/sample-app/generator",
       "schema": "./src/generators/sample-app/schema.json",
-      "description": "sample-app generator"
+      "description": "Generate sample application containing ESM app calling buildable ESM lib"
     }
   }
 }

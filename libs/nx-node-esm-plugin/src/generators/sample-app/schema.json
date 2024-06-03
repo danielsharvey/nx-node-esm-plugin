@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.org/schema",
-  "$id": "SampleApp",
-  "title": "",
+  "$id": "nx-node-esm-plugin-sampleapp",
+  "title": "Generate sample application",
+  "description": "Generate sample app containing ESM app calling buildable ESM lib, demonstrating the use of the @harves/nx-node-esm-plugin:node executor.",
   "type": "object",
   "properties": {
     "name": {

@@ -1,0 +1,3 @@
+import { <%= appNameFunc %> } from './lib/<%= appNameFn %>.js';
+
+console.log('RUNNING:', <%= appNameFunc %>());
