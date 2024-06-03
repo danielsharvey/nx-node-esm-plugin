@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/schema",
   "version": 2,
-  "title": "NodeExecutor executor",
-  "description": "",
+  "title": "Node executor",
+  "description": "Node executor including ESM module resolution for buildable libraries within Nx workspace",
   "type": "object",
   "outputCapture": "pipe",
   "properties": {

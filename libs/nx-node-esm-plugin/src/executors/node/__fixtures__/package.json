@@ -1,0 +1,11 @@
+{
+  "name": "@harves/dummy",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "type": "module",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "private": true
+}

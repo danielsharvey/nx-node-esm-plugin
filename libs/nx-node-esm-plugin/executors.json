@@ -3,7 +3,7 @@
     "node": {
       "implementation": "./src/executors/node/executor",
       "schema": "./src/executors/node/schema.json",
-      "description": "node executor"
+      "description": "Node executor including ESM module resolution for buildable libraries within Nx workspace"
     }
   }
 }
