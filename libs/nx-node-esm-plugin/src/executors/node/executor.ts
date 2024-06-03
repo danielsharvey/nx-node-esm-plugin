@@ -1,6 +1,6 @@
 import {
   ExecutorContext,
-  ProjectGraphProjectNode,
+  // ProjectGraphProjectNode,
   Target,
   logger,
   parseTargetString,
@@ -11,7 +11,7 @@ import {
 import { NodeExecutorSchema } from './schema';
 import {
   calculateDependenciesFromTaskGraph,
-  calculateProjectDependencies,
+  // calculateProjectDependencies,
 } from './buildable-libs-utils';
 import { fileToRunCorrectPath, getFileToRun } from './node-utils';
 import { createTaskGraph } from 'nx/src/tasks-runner/create-task-graph';
@@ -151,6 +151,7 @@ export default async function runExecutorFunc(
     const project = context.projectGraph.nodes[buildTarget.project];
     const buildTargetExecutor =
       project.data.targets[buildTarget.target]?.executor;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const buildOptions: Record<string, any> = {
       ...readTargetOptions(buildTarget, context),
       ...(options.buildTargetOptions ?? {}),

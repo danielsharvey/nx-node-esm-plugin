@@ -35,6 +35,7 @@ export function getRelativeDirectoryToProjectRoot(
 export function getFileToRun(
   context: ExecutorContext,
   project: ProjectGraphProjectNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   buildOptions: Record<string, any>,
   buildTargetExecutor: string
 ): string {

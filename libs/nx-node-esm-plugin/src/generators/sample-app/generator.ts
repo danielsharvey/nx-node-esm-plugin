@@ -1,16 +1,12 @@
 import {
   addDependenciesToPackageJson,
-  addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getProjects,
   logger,
   names,
   readJson,
-  readProjectConfiguration,
   Tree,
   updateJson,
-  updateProjectConfiguration,
   workspaceLayout,
 } from '@nx/devkit';
 import * as path from 'path';

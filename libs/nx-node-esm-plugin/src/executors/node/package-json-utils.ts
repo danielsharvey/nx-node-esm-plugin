@@ -54,6 +54,7 @@ export function resolveFileToRunFromPackageJson(
     return undefined;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let pkgJson: any;
   try {
     pkgJson = JSON.parse(readFileSync(pkgJsonPath, { encoding: 'utf-8' }));

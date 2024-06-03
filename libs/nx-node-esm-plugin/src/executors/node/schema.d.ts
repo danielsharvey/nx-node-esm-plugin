@@ -1,5 +1,6 @@
 export interface NodeExecutorSchema {
   buildTarget: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   buildTargetOptions?: Record<string, any>;
 
   fileToRunMode?: 'packageJson' | 'specified' | 'fromBuildTarget';

@@ -1,13 +1,11 @@
-import { NodeExecutorSchema } from './schema';
-import executor from './executor';
-import { ExecutorContext } from '@nx/devkit';
+// import { NodeExecutorSchema } from './schema';
 import { resolveFileToRunFromPackageJson } from './package-json-utils';
 
-const options: NodeExecutorSchema = {
-  buildTarget: 'build',
-  _: [],
-  __unparsed__: [],
-};
+// const options: NodeExecutorSchema = {
+//   buildTarget: 'build',
+//   _: [],
+//   __unparsed__: [],
+// };
 
 describe('Node executor', () => {
   it('can resolve fileToRun from a package.json', async () => {
