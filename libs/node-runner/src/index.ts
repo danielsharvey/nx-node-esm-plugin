@@ -1,1 +1,1 @@
-export * from './lib/node-runner';
+export * from './lib/node-runner.mjs';

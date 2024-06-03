@@ -37,7 +37,7 @@
           },
           {
             "input": "./dist/libs/node-runner/src/lib",
-            "glob": "*.js",
+            "glob": "*.mjs",
             "output": "./src/executors/node/node-runner"
           }
         ]

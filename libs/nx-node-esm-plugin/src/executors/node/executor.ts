@@ -214,8 +214,8 @@ export default async function runExecutorFunc(
 
   const nodeRunner =
     relativeDirname === 'libs/nx-node-esm-plugin/src/executors/node'
-      ? join(context.root, 'dist/libs/node-runner/src/lib/node-runner.js')
-      : join(__dirname, './node-runner/node-runner.js');
+      ? join(context.root, 'dist/libs/node-runner/src/lib/node-runner.mjs')
+      : join(__dirname, './node-runner/node-runner.mjs');
 
   if (relativeDirname === 'libs/nx-node-esm-plugin/src/executors/node') {
     await performNodeRunnerLibBuild(context);

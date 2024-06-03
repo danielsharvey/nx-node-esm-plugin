@@ -9,7 +9,7 @@ describe('nodeRunner', () => {
     const result = await new Promise((res, rej) => {
       let stdout = '';
       const child = fork(
-        join(workspaceRoot, 'dist/libs/node-runner/src/lib/node-runner.js'),
+        join(workspaceRoot, 'dist/libs/node-runner/src/lib/node-runner.mjs'),
         [],
         {
           env: {

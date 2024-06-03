@@ -6,7 +6,7 @@ const VERBOSE = process.env['NX_VERBOSE_LOGGING'] ?? false;
 
 import { register } from 'module';
 
-register('./node-loader.js', import.meta.url);
+register('./node-loader.mjs', import.meta.url);
 
 /*
  * monkey patch CommonJS require loader
