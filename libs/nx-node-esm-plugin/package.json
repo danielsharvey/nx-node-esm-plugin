@@ -44,6 +44,9 @@
     "generators.json",
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=18.19.0"
   }
