@@ -19,6 +19,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "dependsOn": ["build"],
       "options": {
         "jestConfig": "libs/node-runner/jest.config.ts"
       }
