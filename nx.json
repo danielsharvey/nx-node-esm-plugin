@@ -43,6 +43,12 @@
       }
     }
   },
+  "release": {
+    "projects": ["nx-node-esm-plugin"],
+    "version": {
+      "preVersionCommand": "nx run-many -t build"
+    }
+  },
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
