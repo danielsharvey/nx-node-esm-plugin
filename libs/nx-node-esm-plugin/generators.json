@@ -4,6 +4,12 @@
       "factory": "./src/generators/sample-app/generator",
       "schema": "./src/generators/sample-app/schema.json",
       "description": "Generate sample application containing ESM app calling buildable ESM lib"
+    },
+    "preset": {
+      "factory": "./src/generators/preset/generator",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "preset generator",
+      "x-use-standalone-layout": true
     }
   }
 }
