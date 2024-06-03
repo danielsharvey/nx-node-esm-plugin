@@ -20,6 +20,7 @@ import { calculateCwd, createProcess } from './run-commands-utils';
 import { interpolate } from 'nx/src/tasks-runner/utils';
 import { join, relative, resolve } from 'path';
 import { fileExists, resolveFileToRunFromPackageJson } from './package-json-utils';
+import { loadEnvVars } from './load-env-vars';
 
 /**
  * Build the node-runner library; this is only necessary during
@@ -49,6 +50,10 @@ export default async function runExecutorFunc(
   options: NodeExecutorSchema,
   context: ExecutorContext
 ) {
+  if (process.env.NX_LOAD_DOT_ENV_FILES !== 'false') {
+    await loadEnvVars(options.envFile);
+  }
+
   const target = parseTargetString(context.targetName, context);
   const buildTarget = parseTargetString(options.buildTarget, context);
 
@@ -120,8 +125,6 @@ export default async function runExecutorFunc(
       )} has no dependencies. Is this correct?`
     );
   }
-
-  // XXX TODO envFile
 
   let fileToRun: string;
   if(options.fileToRun) {
