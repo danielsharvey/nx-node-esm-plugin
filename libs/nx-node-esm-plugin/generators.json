@@ -8,7 +8,7 @@
     "preset": {
       "factory": "./src/generators/preset/generator",
       "schema": "./src/generators/preset/schema.json",
-      "description": "preset generator",
+      "description": "Sample app preset generator for nx-node-esm-plugin",
       "x-use-standalone-layout": true
     }
   }

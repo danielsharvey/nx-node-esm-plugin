@@ -14,7 +14,10 @@ describe('preset generator', () => {
 
   it('should run successfully', async () => {
     await presetGenerator(tree, options);
-    const config = readProjectConfiguration(tree, 'test');
-    expect(config).toBeDefined();
+    const appConfig = readProjectConfiguration(tree, 'test-app');
+    const libConfig = readProjectConfiguration(tree, 'test-lib');
+    expect(appConfig).toBeDefined();
+    expect(libConfig).toBeDefined();
+
   });
 });

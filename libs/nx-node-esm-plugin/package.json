@@ -8,7 +8,9 @@
     "nx": "19.1.1",
     "chalk": "4.1.2",
     "npm-run-path": "4.0.1",
-    "resolve-pkg-maps": "^1.0.0"
+    "resolve-pkg-maps": "^1.0.0",
+    "dotenv": "16.3.2",
+    "@nx/js": "19.1.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
