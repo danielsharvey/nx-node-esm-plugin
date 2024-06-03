@@ -19,7 +19,7 @@ const Module = require('node:module');
 
 const originalLoader = Module._load;
 
-// see docs in ./node-loader.ts
+// see docs in ./node-loader.mts
 const mappings = JSON.parse(process.env['NX_MAPPINGS'] ?? '{}');
 const moduleResolutionOverrides = JSON.parse(
   process.env['NX_MODULE_RESOLUTION_OVERRIDES'] ?? '{}'
