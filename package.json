@@ -29,7 +29,8 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "verdaccio": "^5.0.4"
   },
   "dependencies": {
     "@nx/devkit": "19.1.1",
@@ -39,5 +40,8 @@
   },
   "engines": {
     "node": ">=18.19.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }
