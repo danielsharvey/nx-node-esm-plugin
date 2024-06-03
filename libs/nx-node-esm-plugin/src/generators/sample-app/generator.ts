@@ -2,6 +2,7 @@ import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
+  installPackagesTask,
   logger,
   names,
   readJson,
@@ -181,6 +182,14 @@ export async function sampleAppGenerator(
   // console.log('TREE', tree);
 
   await formatFiles(tree);
+
+  logger.info(`NX Run app with @nx/js:node using \`nx run ${appName}:run-js-node\` (fails)`);
+  logger.info(`NX Run app with this plugin using \`nx run ${appName}:run-node-esm-plugin\``);
+
+  return () => {
+    // this is performed after the changes to the filesystem are applied
+    installPackagesTask(tree);
+  };
 }
 
 export default sampleAppGenerator;
