@@ -3,14 +3,7 @@
 
 ### 🚀 Features
 
-- Copy task graph and node helper code from Nx source
-- Implement node ESM executor
-- Implement test apps + test libraries
-- Implement node ESM executor
-- Implement node ESM executor
-- Implement sample-app generator
-- Add env file loading to the node executor
-- Implement Nx workspace preset generator
+- Initial implementation
 
 ### ❤️  Thank You
 

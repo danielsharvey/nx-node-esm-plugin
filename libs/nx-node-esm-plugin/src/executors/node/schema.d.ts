@@ -15,7 +15,6 @@ export interface NodeExecutorSchema {
   envFile?: string;
   // usePty?: boolean;
   streamOutput?: boolean;
-  tty?: boolean;
   _: string[];
   __unparsed__: string[];
 }

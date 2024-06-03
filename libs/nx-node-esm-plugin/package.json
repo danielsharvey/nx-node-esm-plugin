@@ -36,6 +36,14 @@
   "typings": "./src/index.d.ts",
   "executors": "./executors.json",
   "generators": "./generators.json",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "CONTRIBUTING.md",
+    "executors.json",
+    "generators.json",
+    "src"
+  ],
   "engines": {
     "node": ">=18.19.0"
   }

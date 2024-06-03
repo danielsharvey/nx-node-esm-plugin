@@ -59,11 +59,6 @@
       "type": "string",
       "description": "You may specify a custom .env file path."
     },
-    "tty": {
-      "type": "boolean",
-      "description": "Whether commands should be run with a tty terminal",
-      "hidden": true
-    },
     "_": {
       "hidden": true,
       "type": "array",

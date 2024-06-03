@@ -39,6 +39,21 @@
             "input": "./dist/libs/node-runner/src/lib",
             "glob": "*.mjs",
             "output": "./src/executors/node/node-runner"
+          },
+          {
+            "input": ".",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "CHANGELOG.md",
+            "output": "."
           }
         ]
       }
