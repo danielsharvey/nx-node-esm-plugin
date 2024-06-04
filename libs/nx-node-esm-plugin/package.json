@@ -15,8 +15,12 @@
   "homepage": "https://github.com/danielsharvey/nx-node-esm-plugin",
   "license": "MIT",
   "keywords": [
-    "Nx",
-    "Node"
+    "nx",
+    "node",
+    "typescript",
+    "javascript",
+    "nx-plugin",
+    "esm"
   ],
   "bugs": {
     "url": "https://github.com/danielsharvey/nx-node-esm-plugin/issues"

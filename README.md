@@ -122,6 +122,10 @@ The resolver and loader function provided with this plugin includes
 support for module resolution for ESM and require support for CommonJS
 (equivalent to the existing Nx Node executor).
 
+This plugin requires at least Node v18.19.0, when the
+[`module.register()`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+API used to customise module resolution for ESM was added.
+
 ### Module Resolution for ESM
 
 This plugin resolves Node ESM import specifiers for buildable
@@ -191,6 +195,9 @@ The basic operation of the executor:
 3. Invoke the selected Node file with module resolution and
    require loaders customised to utilise these mappings.
 
+Use the `--verbose` flag or `NX_VERBOSE_LOGGING` environment variable when
+running Nx to see logs of the mappings and the module resolution / loader activity.
+
 (**) The task graph algorithm is based on a more recent Nx changes
 enabled by the `NX_BUILDABLE_LIBRARIES_TASK_GRAPH` environment variable
 (not required to be set for this plugin) - see 
@@ -199,7 +206,7 @@ enabled by the `NX_BUILDABLE_LIBRARIES_TASK_GRAPH` environment variable
 [here](https://github.com/nrwl/nx/issues/18257#issuecomment-1824139189).
 
 The full executor schema may be found in 
-[libs/nx-node-esm-plugin/src/executors/node/schema.json](libs/nx-node-esm-plugin/src/executors/node/schema.json).
+[libs/nx-node-esm-plugin/src/executors/node/schema.json](https://github.com/danielsharvey/nx-node-esm-plugin/blob/main/libs/nx-node-esm-plugin/src/executors/node/schema.json).
 
 ### Executor Options
 
@@ -266,12 +273,12 @@ Additional arguments added to `args` and passed to the Node script. Allows comma
 
 ## Changelog
 
-[Learn about the latest changes](CHANGELOG.md).
+[Learn about the latest changes](https://github.com/danielsharvey/nx-node-esm-plugin/blob/main/CHANGELOG.md).
 
 
 ## Contributing
 
-[Read about contributing to this project](CONTRIBUTING.md).
+[Read about contributing to this project](https://github.com/danielsharvey/nx-node-esm-plugin/blob/main/CONTRIBUTING.md).
 Please report issues on [GitHub](https://github.com/danielsharvey/nx-node-esm-plugin/issues).
 
 
