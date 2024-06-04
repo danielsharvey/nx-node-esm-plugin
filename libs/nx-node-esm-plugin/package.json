@@ -1,6 +1,6 @@
 {
   "name": "@harves/nx-node-esm-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "description": "Node executor including ESM module resolution for buildable libraries within Nx workspaces.",
   "repository": {
@@ -15,8 +15,12 @@
   "homepage": "https://github.com/danielsharvey/nx-node-esm-plugin",
   "license": "MIT",
   "keywords": [
-    "Nx",
-    "Node"
+    "nx",
+    "node",
+    "typescript",
+    "javascript",
+    "nx-plugin",
+    "esm"
   ],
   "bugs": {
     "url": "https://github.com/danielsharvey/nx-node-esm-plugin/issues"
